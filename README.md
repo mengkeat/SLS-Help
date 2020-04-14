@@ -11,6 +11,6 @@ Phone Camera Shot Aggregation
 SLS currently is not allowing upload of multiple phone camera shots. Python images2PDF.py
 packages all these images to a single pdf.
 
-(1) Tkinter interface to choose which set of jpegs or which zip files (which contains the jpegs)
-(2) My workflow consists of my wife taking the snapshot and then sending it by phone over to me in 
+- Tkinter interface to choose which set of jpegs or which zip files (which contains the jpegs)
+- My workflow consists of my wife taking the snapshot and then sending it by phone over to me in 
     a ZIP file. 
