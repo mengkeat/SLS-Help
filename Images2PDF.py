@@ -2,18 +2,23 @@ from PIL import Image
 import zipfile as zf
 import os
 
-def save_to_pdf(image_list, out_pdf):
+OUT_PDF_NAME = "output.pdf"
+
+def save_to_pdf(image_list):
     if len(image_list)==0: return
     imgs = [Image.open(iname) for iname in image_list]
-    print(f"Generating pdf: {out_pdf}")
-    imgs[0].save(out_pdf, save_all=True, append_images=imgs[1:])
+
+    bname = os.path.dirname(image_list[0])
+    pdf_filename = os.path.join(bname, OUT_PDF_NAME)
+    print(f"Generating pdf: {pdf_filename}")
+    imgs[0].save(pdf_filename, save_all=True, append_images=imgs[1:])
 
 
 def zip_img_to_pdf(zfile, out_pdf):
     with zf.ZipFile(zfile) as zipfile:
         files = [x.filename for x in zipfile.filelist]
         zipfile.extractall()
-        save_to_pdf(files, out_pdf)
+        save_to_pdf(files)
         for img_file in files:
             print(f"Cleaning up file: {img_file}")
             os.remove(img_file)
@@ -40,4 +45,4 @@ if __name__=="__main__":
         print("Process zip {f}")
         process_zip(f)
 
-    save_to_pdf(ifiles, "output.pdf")
+    save_to_pdf(ifiles)
