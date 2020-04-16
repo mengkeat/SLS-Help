@@ -24,14 +24,21 @@ def get_file_month_day(fpath):
     t = os.path.getctime(fpath)
     return DT.date.fromtimestamp(t).strftime("%b %d")
 
+def img_files_dir(dpath):
+    """
+    Returns a list of image files in a certain directory
+    """
+    files = []
+    for ext in IMG_EXT:
+        files.extend(glob.glob(os.path.join(dpath, ext)))
+    return files
+
 def get_today_candidate_files(path):
     """
     Goes to today's candidate directory "path" and obtains list
     of files created with today's date and returns list
     """
-    files = []
-    for ext in IMG_EXT:
-        files.extend(glob.glob(os.path.join(path, ext)))
+    files = img_files_dir(path)
     today = month_day()
     return [f for f in files if get_file_month_day(f)==today]
 
