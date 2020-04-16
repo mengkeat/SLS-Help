@@ -20,11 +20,11 @@ def save_to_pdf(image_list, pdf_fname = OUT_PDF_NAME):
     imgs[0].save(pdf_filename, save_all=True, append_images=imgs[1:])
 
 
-def zip_img_to_pdf(zfile, out_pdf):
+def zip_img_to_pdf(zfile, out_pdf = OUT_PDF_NAME):
     with zf.ZipFile(zfile) as zipfile:
         files = [x.filename for x in zipfile.filelist]
         zipfile.extractall()
-        save_to_pdf(files)
+        save_to_pdf(files, out_pdf)
         for img_file in files:
             print(f"Cleaning up file: {img_file}")
             os.remove(img_file)
