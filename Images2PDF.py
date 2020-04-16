@@ -4,12 +4,18 @@ import os
 
 OUT_PDF_NAME = "output.pdf"
 
-def save_to_pdf(image_list):
+def save_to_pdf(image_list, pdf_fname = OUT_PDF_NAME):
+    """
+    Given image_list of image files
+    - Extract the base dir path from the first in image_list
+    - Collates all images to a single pdf
+    - Write to the OUT_PDF_NAME in the same directory
+    """
     if len(image_list)==0: return
     imgs = [Image.open(iname) for iname in image_list]
 
     bname = os.path.dirname(image_list[0])
-    pdf_filename = os.path.join(bname, OUT_PDF_NAME)
+    pdf_filename = os.path.join(bname, pdf_fname)
     print(f"Generating pdf: {pdf_filename}")
     imgs[0].save(pdf_filename, save_all=True, append_images=imgs[1:])
 
