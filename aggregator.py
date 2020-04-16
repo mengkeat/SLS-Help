@@ -11,7 +11,10 @@ class Interface():
         root.title("Conversion and Aggregration program")
         self.filelist = Listbox(root, width=100, selectmode=EXTENDED)
         self.filelist.grid(row=0, sticky=W+E+N+S)
+        self.filelist.bind('<Button-1>', self.filelist_clickselect)
         self.filelist.bind("<Double-Button-1>", self.show_image)
+        self.filelist.bind("<B1-Motion>", self.filelist_reorder)
+        self.curIndex = None
 
         self.cmd_area = Frame(root, bg="black")
         self.cmd_area.grid(row=1, sticky=W+E+N+S)
@@ -24,6 +27,25 @@ class Interface():
         self.canvas = Canvas(root, width=480, height=640)
         self.canvas.grid(row=0, column=1, rowspan=2)
         self.canvas_img = self.canvas.create_image(240,320,image=self.photo)
+
+    def filelist_clickselect(self, event):
+        self.curIndex = self.filelist.nearest(event.y)
+
+    def filelist_reorder(self, event):
+        """
+        Support for drag and drop re-selection
+        """
+        fl = self.filelist
+        i = fl.nearest(event.y)
+        old = fl.get(i)
+        if i < self.curIndex:
+            fl.delete(i)
+            fl.insert(i+1, old)
+        elif i > self.curIndex:
+            fl.delete(i)
+            fl.insert(i-1, old)
+        self.curIndex = i
+            
 
     def show_image(self, event):
         """ 
